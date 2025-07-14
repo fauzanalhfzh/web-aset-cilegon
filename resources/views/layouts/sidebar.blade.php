@@ -1,11 +1,12 @@
-<div id="sidebar" class="sidebar-transition w-64 bg-white shadow-lg flex flex-col">
+<div id="sidebar" class="sidebar-transition w-64 bg-white shadow-lg flex flex-col h-screen overflow-y-auto">
     <div class="p-6 border-b border-gray-200">
         <div class="flex items-center space-x-3">
             <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
-                <i class="fas fa-boxes text-white"></i>
+                {{-- <i class="fas fa-boxes text-white"></i> --}}
+                <img src="{{ asset('build/assets/logo_kelurahan.png') }}" alt="">
             </div>
             <div>
-                <h1 class="text-xl font-bold text-gray-800">Dashboard Aset</h1>
+                <h1 class="text-xl font-bold text-gray-800">Dashboard</h1>
                 <p class="text-xs text-gray-500">Kel. Kedaleman Kota Cilegon</p>
             </div>
         </div>
