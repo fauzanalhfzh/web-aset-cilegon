@@ -16,26 +16,42 @@
             <i class="fas fa-home"></i>
             <span>Dashboard</span>
         </a>
-        <a href="{{ route('aset.create') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('aset.create') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50 transition-colors' }}">
-            <i class="fas fa-plus-circle"></i>
-            <span>Tambah Aset</span>
-        </a>
-        <a href="{{ route('kategori.index') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('kategori.index') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50 transition-colors' }}">
-            <i class="fas fa-plus-circle"></i>
-            <span>Tambah Kategori Aset</span>
-        </a>
+
+        @if (auth()->user()->role === 'admin')
+            <a href="{{ route('aset.create') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('aset.create') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50 transition-colors' }}">
+                <i class="fas fa-plus-circle"></i>
+                <span>Tambah Aset</span>
+            </a>
+            <a href="{{ route('kategori.index') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('kategori.index') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50 transition-colors' }}">
+                <i class="fas fa-plus-circle"></i>
+                <span>Tambah Kategori Aset</span>
+            </a>
+        @endif
+
         <a href="{{ route('aset.index') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('aset.index') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50 transition-colors' }}">
             <i class="fas fa-list"></i>
             <span>Daftar Aset</span>
+        </a>
+        <a href="{{ route('aset-keluar.index') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('aset-keluar.index') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50 transition-colors' }}">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Aset Keluar</span>
+        </a>
+        <a href="{{ route('pengembalian.index') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('pengembalian.index') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50 transition-colors' }}">
+            <i class="fas fa-undo"></i>
+            <span>Pengembalian</span>
         </a>
         <a href="{{ route('laporan.aset.index') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('laporan.aset.index') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50 transition-colors' }}">
             <i class="fas fa-chart-bar"></i>
             <span>Laporan</span>
         </a>
-        <a href="{{ url('users') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('profile.edit') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50 transition-colors' }}">
-            <i class="fas fa-user"></i>
-            <span>Kelola Users</span>
-        </a>
+
+        @if (auth()->user()->role === 'admin')
+            <a href="{{ url('users') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('users.*') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50 transition-colors' }}">
+                <i class="fas fa-user"></i>
+                <span>Kelola Users</span>
+            </a>
+        @endif
+
         <a href="{{ route('profile.edit') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('profile.edit') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50 transition-colors' }}">
             <i class="fas fa-user"></i>
             <span>My Profile</span>
@@ -55,7 +71,6 @@
             </div>
         </div>
 
-        <!-- Logout button -->
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="w-full text-left flex items-center space-x-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors">
