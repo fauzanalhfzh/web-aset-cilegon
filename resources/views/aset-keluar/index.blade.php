@@ -28,20 +28,25 @@
                     <tr>
                         <td class="border px-4 py-2">{{ $asetKeluar->aset->nama_aset }}</td>
                         <td class="border px-4 py-2">{{ $asetKeluar->jumlah }}</td>
-                        <td class="border px-4 py-2">{{ $asetKeluar->tanggal_keluar }}</td>
+                        <td class="border px-4 py-2">
+                            {{ \Carbon\Carbon::parse($asetKeluar->tanggal_keluar)->format('d-m-Y') }}
+                        </td>
                         <td class="border px-4 py-2">{{ $asetKeluar->keterangan ?? '-' }}</td>
                         <td class="border px-4 py-2">
                             {{ $asetKeluar->status === 'approved' ? 'Disetujui' : 'Menunggu Persetujuan' }}
                         </td>
-                        <td class="border px-4 py-2">{{ $asetKeluar->approver ? $asetKeluar->approver->name : '-' }}</td>
+                        <td class="border px-4 py-2">{{ $asetKeluar->approver ? $asetKeluar->approver->name : '-' }}
+                        </td>
                         <td class="border px-4 py-2 space-x-2">
                             @if (auth()->user()->role === 'admin' && $asetKeluar->status === 'pending')
                                 <a href="{{ route('aset-keluar.edit', $asetKeluar) }}"
                                     class="bg-blue-500 text-white p-2 my-1 rounded-lg">Edit</a>
-                                <form action="{{ route('aset-keluar.destroy', $asetKeluar) }}" method="POST" class="inline delete-form">
+                                <form action="{{ route('aset-keluar.destroy', $asetKeluar) }}" method="POST"
+                                    class="inline delete-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="bg-red-500 text-white p-2 my-1 rounded-lg">Hapus</button>
+                                    <button type="submit"
+                                        class="bg-red-500 text-white p-2 my-1 rounded-lg">Hapus</button>
                                 </form>
                             @endif
                             @if (auth()->user()->role === 'lurah' && $asetKeluar->status === 'pending')
@@ -64,8 +69,10 @@
                 },
                 pageLength: 10,
                 responsive: true,
-                columnDefs: [
-                    { orderable: false, targets: -1 } // Disable sorting on action column
+                columnDefs: [{
+                        orderable: false,
+                        targets: -1
+                    } // Disable sorting on action column
                 ]
             });
 
@@ -102,7 +109,8 @@
                             error: function(xhr) {
                                 Swal.fire({
                                     title: 'Gagal!',
-                                    text: xhr.responseJSON?.message || 'Terjadi kesalahan.',
+                                    text: xhr.responseJSON?.message ||
+                                        'Terjadi kesalahan.',
                                     icon: 'error',
                                     confirmButtonText: 'OK'
                                 });
@@ -147,7 +155,8 @@
                             error: function(xhr) {
                                 Swal.fire({
                                     title: 'Gagal!',
-                                    text: xhr.responseJSON?.message || 'Terjadi kesalahan.',
+                                    text: xhr.responseJSON?.message ||
+                                        'Terjadi kesalahan.',
                                     icon: 'error',
                                     confirmButtonText: 'OK'
                                 });

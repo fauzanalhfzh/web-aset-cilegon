@@ -31,7 +31,9 @@
                         <td class="border px-4 py-2">{{ $aset->kategori->nama_kategori }}</td>
                         <td class="border px-4 py-2">{{ $aset->jumlah }}</td>
                         <td class="border px-4 py-2">{{ $aset->kondisi }}</td>
-                        <td class="border px-4 py-2">{{ $aset->tanggal_pembelian }}</td>
+                        <td class="border px-4 py-2">
+                            {{ \Carbon\Carbon::parse($aset->tanggal_pembelian)->format('d-m-Y') }}
+                        </td>
                         <td class="border px-4 py-2">
                             {{ $aset->status === 'approved' ? 'Disetujui' : 'Menunggu Persetujuan' }}
                         </td>
@@ -40,10 +42,12 @@
                             @if (auth()->user()->role === 'admin')
                                 <a href="{{ route('aset.edit', $aset) }}"
                                     class="bg-blue-500 text-white p-2 my-1 rounded-lg">Edit</a>
-                                <form action="{{ route('aset.destroy', $aset) }}" method="POST" class="inline delete-form">
+                                <form action="{{ route('aset.destroy', $aset) }}" method="POST"
+                                    class="inline delete-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="bg-red-500 text-white p-2 my-1 rounded-lg">Hapus</button>
+                                    <button type="submit"
+                                        class="bg-red-500 text-white p-2 my-1 rounded-lg">Hapus</button>
                                 </form>
                             @endif
                             @if (auth()->user()->role === 'lurah' && $aset->status === 'pending')
@@ -66,8 +70,10 @@
                 },
                 pageLength: 10,
                 responsive: true,
-                columnDefs: [
-                    { orderable: false, targets: -1 } // Disable sorting on action column
+                columnDefs: [{
+                        orderable: false,
+                        targets: -1
+                    } // Disable sorting on action column
                 ]
             });
 
@@ -104,7 +110,8 @@
                             error: function(xhr) {
                                 Swal.fire({
                                     title: 'Gagal!',
-                                    text: xhr.responseJSON?.message || 'Terjadi kesalahan.',
+                                    text: xhr.responseJSON?.message ||
+                                        'Terjadi kesalahan.',
                                     icon: 'error',
                                     confirmButtonText: 'OK'
                                 });
@@ -149,7 +156,8 @@
                             error: function(xhr) {
                                 Swal.fire({
                                     title: 'Gagal!',
-                                    text: xhr.responseJSON?.message || 'Terjadi kesalahan.',
+                                    text: xhr.responseJSON?.message ||
+                                        'Terjadi kesalahan.',
                                     icon: 'error',
                                     confirmButtonText: 'OK'
                                 });
