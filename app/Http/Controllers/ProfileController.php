@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -26,13 +27,34 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $user->fill($request->validated());
+
+        // Handle signature upload
+        if ($request->hasFile('sign')) {
+            if ($user->sign) {
+                Storage::disk('public')->delete($user->sign); // Hapus file lama jika ada
+            }
+            $signPath = $request->file('sign')->store('signatures', 'public');
+            $user->sign = $signPath;
         }
 
-        $request->user()->save();
+        // Handle profile photo upload
+        if ($request->hasFile('foto')) {
+            if ($user->foto) {
+                Storage::disk('public')->delete($user->foto); // Hapus file lama jika ada
+            }
+            $fotoPath = $request->file('foto')->store('photos', 'public');
+            $user->foto = $fotoPath;
+        }
+
+        // Reset email verification if email changed
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

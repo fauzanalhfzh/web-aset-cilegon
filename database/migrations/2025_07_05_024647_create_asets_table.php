@@ -15,8 +15,8 @@ return new class extends Migration
             $table->integer('jumlah');
             $table->enum('kondisi', ['Baik', 'Rusak', 'Perlu Perbaikan']);
             $table->date('tanggal_pembelian');
-            $table->enum('status', ['pending', 'approved'])->default('pending');
-            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null');
+            // $table->enum('status', ['pending', 'approved'])->default('pending');
+            // $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
         });
     }

@@ -14,10 +14,10 @@ class DashboardController extends Controller
         $totalAset = Aset::count();
 
         // Active Assets
-        $asetAktif = Aset::where('status', 'Aktif')->count();
+        $asetAktif = Aset::all()->count();
 
         // Assets Needing Maintenance
-        $perluMaintenance = Aset::where('status', 'Maintenance')->count();
+        $perluMaintenance = Aset::all()->count();
 
         // Total Value
         $nilaiTotal = Aset::sum('jumlah'); // Assuming 'jumlah' represents the value in Rp

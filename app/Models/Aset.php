@@ -15,17 +15,12 @@ class Aset extends Model
         'jumlah',
         'kondisi',
         'tanggal_pembelian',
-        'status',
-        'approved_by',
+        // 'status',
+        // 'approved_by',
     ];
 
     public function kategori()
     {
         return $this->belongsTo(KategoriAset::class, 'kategori_id');
-    }
-
-    public function approver()
-    {
-        return $this->belongsTo(User::class, 'approved_by');
     }
 }

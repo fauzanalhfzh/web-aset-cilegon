@@ -21,8 +21,8 @@ class AsetSeeder extends Seeder
                 'jumlah' => 10,
                 'kondisi' => 'Baik',
                 'tanggal_pembelian' => '2022-01-15',
-                'status' => 'approved',
-                'approved_by' => $approver?->id,
+                // 'status' => 'approved',
+                // 'approved_by' => $approver?->id,
             ],
             [
                 'nama_aset' => 'Meja Kantor',
@@ -30,8 +30,8 @@ class AsetSeeder extends Seeder
                 'jumlah' => 20,
                 'kondisi' => 'Perlu Perbaikan',
                 'tanggal_pembelian' => '2021-05-20',
-                'status' => 'pending',
-                'approved_by' => null,
+                // 'status' => 'pending',
+                // 'approved_by' => null,
             ],
             [
                 'nama_aset' => 'Mobil Dinas Toyota Avanza',
@@ -39,8 +39,8 @@ class AsetSeeder extends Seeder
                 'jumlah' => 2,
                 'kondisi' => 'Rusak',
                 'tanggal_pembelian' => '2020-08-10',
-                'status' => 'approved',
-                'approved_by' => $approver?->id,
+                // 'status' => 'approved',
+                // 'approved_by' => $approver?->id,
             ],
         ];
 

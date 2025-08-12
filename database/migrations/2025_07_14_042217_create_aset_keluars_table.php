@@ -14,8 +14,8 @@ class CreateAsetKeluarsTable extends Migration
             $table->integer('jumlah')->default(1);
             $table->date('tanggal_keluar');
             $table->string('keterangan')->nullable();
-            $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null');
-            $table->string('status')->default('pending'); // pending, approved
+            // $table->foreignId('approved_by')->nullable()->constrained('users')->onDelete('set null');
+            // $table->string('status')->default('pending'); // pending, approved
             $table->timestamps();
         });
     }

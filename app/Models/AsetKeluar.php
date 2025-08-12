@@ -14,8 +14,8 @@ class AsetKeluar extends Model
         'jumlah',
         'tanggal_keluar',
         'keterangan',
-        'approved_by',
-        'status',
+        // 'approved_by',
+        // 'status',
     ];
 
     public function aset()

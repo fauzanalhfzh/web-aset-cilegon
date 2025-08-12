@@ -7,6 +7,10 @@
                     <a href="{{ route('aset.create') }}"
                         class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Tambah Aset</a>
                 @endif
+                 @if (auth()->user()->role === 'admin')
+                    <a href="{{ route('aset-keluar.create') }}"
+                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Tambah Aset Keluar</a>
+                @endif
                 <a href="{{ route('dashboard') }}"
                     class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Kembali</a>
             </div>
@@ -19,8 +23,8 @@
                     <th class="px-4 py-2">Jumlah</th>
                     <th class="px-4 py-2">Kondisi</th>
                     <th class="px-4 py-2">Tanggal Pembelian</th>
-                    <th class="px-4 py-2">Status</th>
-                    <th class="px-4 py-2">Disetujui Oleh</th>
+                    <!-- <th class="px-4 py-2">Status</th>
+                    <th class="px-4 py-2">Disetujui Oleh</th> -->
                     <th class="px-4 py-2">Aksi</th>
                 </tr>
             </thead>
@@ -34,10 +38,10 @@
                         <td class="border px-4 py-2">
                             {{ \Carbon\Carbon::parse($aset->tanggal_pembelian)->format('d-m-Y') }}
                         </td>
-                        <td class="border px-4 py-2">
+                        <!-- <td class="border px-4 py-2">
                             {{ $aset->status === 'approved' ? 'Disetujui' : 'Menunggu Persetujuan' }}
                         </td>
-                        <td class="border px-4 py-2">{{ $aset->approver ? $aset->approver->name : '-' }}</td>
+                        <td class="border px-4 py-2">{{ $aset->approver ? $aset->approver->name : '-' }}</td> -->
                         <td class="border px-4 py-2 space-x-2">
                             @if (auth()->user()->role === 'admin')
                                 <a href="{{ route('aset.edit', $aset) }}"
@@ -50,10 +54,10 @@
                                         class="bg-red-500 text-white p-2 my-1 rounded-lg">Hapus</button>
                                 </form>
                             @endif
-                            @if (auth()->user()->role === 'lurah' && $aset->status === 'pending')
+                            <!-- @if (auth()->user()->role === 'lurah' && $aset->status === 'pending')
                                 <a href="{{ route('aset.approve', $aset) }}"
                                     class="bg-green-500 text-white p-2 my-1 rounded-lg approve-link">Setujui</a>
-                            @endif
+                            @endif -->
                         </td>
                     </tr>
                 @endforeach

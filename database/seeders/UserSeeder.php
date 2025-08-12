@@ -22,14 +22,14 @@ class UserSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        User::create([
-            'name' => 'Lurah',
-            'email' => 'lurah@example.com',
-            'password' => Hash::make('password123'),
-            'sign' => null,
-            'foto' => null,
-            'role' => 'Lurah',
-            'is_active' => true,
-        ]);
+        // User::create([
+        //     'name' => 'Lurah',
+        //     'email' => 'lurah@example.com',
+        //     'password' => Hash::make('password123'),
+        //     'sign' => null,
+        //     'foto' => null,
+        //     'role' => 'Lurah',
+        //     'is_active' => true,
+        // ]);
     }
 }

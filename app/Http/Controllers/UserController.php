@@ -75,7 +75,7 @@ class UserController extends Controller
             if ($user->foto) {
                 Storage::disk('public')->delete($user->foto);
             }
-            $data['foto'] = $request->file('foto')->store('users', 'public');
+            $data['foto'] = $request->file('foto')->store('photos', 'public');
         }
 
         if ($request->hasFile('sign')) {
@@ -83,7 +83,7 @@ class UserController extends Controller
             if ($user->sign) {
                 Storage::disk('public')->delete($user->sign);
             }
-            $data['sign'] = $request->file('sign')->store('users', 'public');
+            $data['sign'] = $request->file('sign')->store('signatures', 'public');
         }
 
         $user->update($data);

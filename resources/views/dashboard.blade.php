@@ -46,7 +46,7 @@
             </div>
         </div>
 
-        <div class="bg-white p-6 rounded-xl shadow-sm card-hover animate-fade-in">
+        <!-- <div class="bg-white p-6 rounded-xl shadow-sm card-hover animate-fade-in">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-gray-500 text-sm">Nilai Total</p>
@@ -59,7 +59,7 @@
                     <i class="fas fa-money-bill-wave text-purple-600 text-xl"></i>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <!-- Charts Row -->
@@ -96,9 +96,9 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kode Aset</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama Aset</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kategori</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                        <!-- <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th> -->
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nilai</th>
+                        <!-- <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nilai</th> -->
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
@@ -107,13 +107,13 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $aset->id }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $aset->nama_aset }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $aset->kategori->nama_kategori }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <!-- <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $aset->status == 'Aktif' ? 'bg-green-100 text-green-800' : ($aset->status == 'Maintenance' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800') }}">
                                     {{ $aset->status }}
                                 </span>
-                            </td>
+                            </td> -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ \Carbon\Carbon::parse($aset->tanggal_pembelian)->format('d M Y') }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Rp {{ number_format($aset->jumlah, 0, ',', '.') }}</td>
+                            <!-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Rp {{ number_format($aset->jumlah, 0, ',', '.') }}</td> -->
                         </tr>
                     @endforeach
                 </tbody>

@@ -5,19 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\Aset;
 use App\Models\AsetKeluar;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class AsetKeluarController extends Controller
 {
     public function index()
     {
-        $asetKeluars = AsetKeluar::with('aset', 'approver')->get();
+        $asetKeluars = AsetKeluar::with('aset')->get(); // Hapus 'approver'
         return view('aset-keluar.index', compact('asetKeluars'));
     }
 
     public function create()
     {
-        $asets = Aset::where('status', 'approved')->get();
+        $asets = Aset::all(); // Hapus filter status 'approved'
         return view('aset-keluar.create', compact('asets'));
     }
 
@@ -32,40 +31,30 @@ class AsetKeluarController extends Controller
 
         $aset = Aset::findOrFail($request->aset_id);
         if ($request->jumlah > $aset->jumlah) {
-            if ($request->ajax()) {
-                return response()->json(['message' => 'Jumlah aset keluar melebihi jumlah aset yang tersedia.'], 422);
-            }
-            return redirect()->back()->withErrors(['jumlah' => 'Jumlah aset keluar melebihi jumlah aset yang tersedia.']);
+            return $request->ajax()
+                ? response()->json(['message' => 'Jumlah aset keluar melebihi jumlah aset yang tersedia.'], 422)
+                : redirect()->back()->withErrors(['jumlah' => 'Jumlah aset keluar melebihi jumlah aset yang tersedia.']);
         }
 
-        AsetKeluar::create(array_merge($request->all(), ['status' => 'pending']));
+        AsetKeluar::create($request->all());
 
-        if ($request->ajax()) {
-            return response()->json(['message' => 'Aset keluar berhasil ditambahkan, menunggu persetujuan.']);
-        }
+        // Kurangi jumlah aset langsung setelah dibuat
+        $aset->jumlah -= $request->jumlah;
+        $aset->save();
 
-        return redirect()->route('aset-keluar.index')->with('success', 'Aset keluar berhasil ditambahkan, menunggu persetujuan.');
+        return $request->ajax()
+            ? response()->json(['message' => 'Aset keluar berhasil ditambahkan.'])
+            : redirect()->route('aset.index')->with('success', 'Aset keluar berhasil ditambahkan.');
     }
 
     public function edit(AsetKeluar $asetKeluar)
     {
-        if ($asetKeluar->status === 'approved') {
-            return redirect()->route('aset-keluar.index')->with('error', 'Aset keluar yang sudah disetujui tidak dapat diedit.');
-        }
-
-        $asets = Aset::where('status', 'approved')->get();
+        $asets = Aset::all();
         return view('aset-keluar.edit', compact('asetKeluar', 'asets'));
     }
 
     public function update(Request $request, AsetKeluar $asetKeluar)
     {
-        if ($asetKeluar->status === 'approved') {
-            if ($request->ajax()) {
-                return response()->json(['message' => 'Aset keluar yang sudah disetujui tidak dapat diedit.'], 422);
-            }
-            return redirect()->route('aset-keluar.index')->with('error', 'Aset keluar yang sudah disetujui tidak dapat diedit.');
-        }
-
         $request->validate([
             'aset_id' => 'required|exists:asets,id',
             'jumlah' => 'required|integer|min:1',
@@ -74,70 +63,58 @@ class AsetKeluarController extends Controller
         ]);
 
         $aset = Aset::findOrFail($request->aset_id);
+
+        // Tambahkan kembali jumlah sebelumnya ke stok
+        $aset->jumlah += $asetKeluar->jumlah;
+
+        // Cek apakah jumlah baru melebihi stok
         if ($request->jumlah > $aset->jumlah) {
-            if ($request->ajax()) {
-                return response()->json(['message' => 'Jumlah aset keluar melebihi jumlah aset yang tersedia.'], 422);
-            }
-            return redirect()->back()->withErrors(['jumlah' => 'Jumlah aset keluar melebihi jumlah aset yang tersedia.']);
+            return $request->ajax()
+                ? response()->json(['message' => 'Jumlah aset keluar melebihi jumlah aset yang tersedia.'], 422)
+                : redirect()->back()->withErrors(['jumlah' => 'Jumlah aset keluar melebihi jumlah aset yang tersedia.']);
         }
 
         $asetKeluar->update($request->all());
 
-        if ($request->ajax()) {
-            return response()->json(['message' => 'Aset keluar berhasil diperbarui.']);
-        }
-
-        return redirect()->route('aset-keluar.index')->with('success', 'Aset keluar berhasil diperbarui.');
-    }
-
-    public function approve(AsetKeluar $asetKeluar, Request $request)
-    {
-        if ($asetKeluar->status === 'approved') {
-            if ($request->ajax()) {
-                return response()->json(['message' => 'Aset keluar sudah disetujui.'], 422);
-            }
-            return redirect()->route('aset-keluar.index')->with('error', 'Aset keluar sudah disetujui.');
-        }
-
-        $aset = Aset::findOrFail($asetKeluar->aset_id);
-        if ($asetKeluar->jumlah > $aset->jumlah) {
-            if ($request->ajax()) {
-                return response()->json(['message' => 'Jumlah aset keluar melebihi jumlah aset yang tersedia.'], 422);
-            }
-            return redirect()->route('aset-keluar.index')->with('error', 'Jumlah aset keluar melebihi jumlah aset yang tersedia.');
-        }
-
-        $asetKeluar->update([
-            'status' => 'approved',
-            'approved_by' => Auth::id(),
-        ]);
-
-        // Kurangi jumlah aset di tabel aset
-        $aset->jumlah -= $asetKeluar->jumlah;
+        // Kurangi jumlah aset berdasarkan nilai baru
+        $aset->jumlah -= $request->jumlah;
         $aset->save();
 
-        if ($request->ajax()) {
-            return response()->json(['message' => 'Aset keluar berhasil disetujui.']);
-        }
-
-        return redirect()->route('aset-keluar.index')->with('success', 'Aset keluar berhasil disetujui.');
+        return $request->ajax()
+            ? response()->json(['message' => 'Aset keluar berhasil diperbarui.'])
+            : redirect()->route('aset-keluar.index')->with('success', 'Aset keluar berhasil diperbarui.');
     }
 
     public function destroy(AsetKeluar $asetKeluar, Request $request)
     {
-        if ($asetKeluar->status === 'approved') {
-            if ($request->ajax()) {
-                return response()->json(['message' => 'Aset keluar yang sudah disetujui tidak dapat dihapus.'], 422);
-            }
-            return redirect()->route('aset-keluar.index')->with('error', 'Aset keluar yang sudah disetujui tidak dapat dihapus.');
+        // Tambahkan kembali jumlah ke stok saat data dihapus
+        $aset = Aset::find($asetKeluar->aset_id);
+        if ($aset) {
+            $aset->jumlah += $asetKeluar->jumlah;
+            $aset->save();
         }
 
         $asetKeluar->delete();
 
-        if ($request->ajax()) {
-            return response()->json(['message' => 'Aset keluar berhasil dihapus.']);
-        }
-
-        return redirect()->route('aset-keluar.index')->with('success', 'Aset keluar berhasil dihapus.');
+        return $request->ajax()
+            ? response()->json(['message' => 'Aset keluar berhasil dihapus.'])
+            : redirect()->route('aset-keluar.index')->with('success', 'Aset keluar berhasil dihapus.');
     }
+
+
+    public function return(AsetKeluar $asetKeluar, Request $request)
+{
+    $aset = Aset::find($asetKeluar->aset_id);
+    if ($aset) {
+        $aset->jumlah += $asetKeluar->jumlah;
+        $aset->save();
+    }
+
+    $asetKeluar->delete();
+
+    return $request->ajax()
+        ? response()->json(['message' => 'Aset berhasil dikembalikan ke stok.'])
+        : redirect()->route('aset-keluar.index')->with('success', 'Aset berhasil dikembalikan ke stok.');
+}
+
 }

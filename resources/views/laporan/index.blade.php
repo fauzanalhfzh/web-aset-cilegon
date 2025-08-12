@@ -67,46 +67,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="bg-yellow-50 overflow-hidden shadow rounded-lg">
-                            <div class="p-5">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0">
-                                        <div class="w-8 h-8 bg-yellow-500 rounded-md flex items-center justify-center">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div class="ml-5 w-0 flex-1">
-                                        <dl>
-                                            <dt class="text-sm font-medium text-gray-500 truncate">Pending</dt>
-                                            <dd class="text-lg font-medium text-gray-900">{{ $statusPending }}</dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-indigo-50 overflow-hidden shadow rounded-lg">
-                            <div class="p-5">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0">
-                                        <div class="w-8 h-8 bg-indigo-500 rounded-md flex items-center justify-center">
-                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div class="ml-5 w-0 flex-1">
-                                        <dl>
-                                            <dt class="text-sm font-medium text-gray-500 truncate">Approved</dt>
-                                            <dd class="text-lg font-medium text-gray-900">{{ number_format($statistik['status_approved']) }}</dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <!-- Filter Section -->
@@ -134,20 +94,6 @@
                                                 <option value="{{ $kategori->id }}"
                                                     {{ $request->kategori_id == $kategori->id ? 'selected' : '' }}>
                                                     {{ $kategori->nama_kategori }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                                        <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
-                                                id="status" 
-                                                name="status">
-                                            <option value="">Semua Status</option>
-                                            @foreach ($statusOptions as $status)
-                                                <option value="{{ $status }}"
-                                                    {{ $request->status == $status ? 'selected' : '' }}>
-                                                    {{ ucfirst($status) }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -208,13 +154,14 @@
                     <!-- Data Table -->
                     <div class="bg-white shadow overflow-hidden sm:rounded-md">
                         <div class="overflow-x-auto">
+                            <!-- BAGIAN TABLE -->
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                     <tr>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'nama_aset', 'sort_order' => request('sort_order') == 'asc' ? 'desc' : 'asc']) }}" 
-                                               class="group inline-flex items-center hover:text-gray-700">
+                                            class="group inline-flex items-center hover:text-gray-700">
                                                 Nama Aset
                                                 @if (request('sort_by') == 'nama_aset')
                                                     <svg class="ml-1 w-4 h-4 text-gray-400 group-hover:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -232,7 +179,7 @@
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kondisi</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'tanggal_pembelian', 'sort_order' => request('sort_order') == 'asc' ? 'desc' : 'asc']) }}" 
-                                               class="group inline-flex items-center hover:text-gray-700">
+                                            class="group inline-flex items-center hover:text-gray-700">
                                                 Tanggal Pembelian
                                                 @if (request('sort_by') == 'tanggal_pembelian')
                                                     <svg class="ml-1 w-4 h-4 text-gray-400 group-hover:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -245,9 +192,8 @@
                                                 @endif
                                             </a>
                                         </th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Approved By</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                       
+                                       
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -265,62 +211,25 @@
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                 {{ number_format($aset->jumlah) }}
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                @if ($aset->kondisi == 'baik')
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                        Baik
-                                                    </span>
-                                                @elseif($aset->kondisi == 'rusak ringan')
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                                        Rusak Ringan
-                                                    </span>
-                                                @else
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                                        Rusak Berat
-                                                    </span>
-                                                @endif
+                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                {{ $aset->kondisi }}
                                             </td>
+                                           
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                 {{ \Carbon\Carbon::parse($aset->tanggal_pembelian)->format('d/m/Y') }}
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                @if ($aset->status == 'approved')
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                        Approved
-                                                    </span>
-                                                @elseif($aset->status == 'pending')
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                                        Pending
-                                                    </span>
-                                                @else
-                                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                                        Rejected
-                                                    </span>
-                                                @endif
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                {{ $aset->approver->name ?? '-' }}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                <a href="{{ route('laporan.aset.detail', $aset->id) }}"
-                                                   class="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                                    </svg>
-                                                    Detail
-                                                </a>
-                                            </td>
+                                           
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="9" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                            <td colspan="8" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
                                                 Tidak ada data aset
                                             </td>
                                         </tr>
                                     @endforelse
                                 </tbody>
                             </table>
+
                         </div>
 
                         <!-- Pagination -->

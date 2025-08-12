@@ -1,9 +1,8 @@
 <div id="sidebar" class="sidebar-transition w-64 bg-white shadow-lg flex flex-col h-screen overflow-y-auto">
     <div class="p-6 border-b border-gray-200">
         <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
-                {{-- <i class="fas fa-boxes text-white"></i> --}}
-                <img src="{{ asset('build/assets/logo_kelurahan.png') }}" alt="">
+            <div class="w-10 h-10 rounded-lg flex items-center justify-center">
+                <img src="{{ asset('build/assets/logo1.png') }}" alt="">
             </div>
             <div>
                 <h1 class="text-xl font-bold text-gray-800">Dashboard</h1>
@@ -37,10 +36,10 @@
             <i class="fas fa-sign-out-alt"></i>
             <span>Aset Keluar</span>
         </a>
-        <a href="{{ route('pengembalian.index') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('pengembalian.index') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50 transition-colors' }}">
+        <!-- <a href="{{ route('pengembalian.index') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('pengembalian.index') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50 transition-colors' }}">
             <i class="fas fa-undo"></i>
             <span>Pengembalian</span>
-        </a>
+        </a> -->
         <a href="{{ route('laporan.aset.index') }}" class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('laporan.aset.index') ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50 transition-colors' }}">
             <i class="fas fa-chart-bar"></i>
             <span>Laporan</span>

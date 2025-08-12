@@ -28,16 +28,18 @@ Route::middleware('auth')->group(function () {
     Route::get('users/{user}/toggle', [UserController::class, 'toggleStatus'])->name('users.toggle');
 
     Route::resource('aset', AsetController::class);
-    Route::get('aset/{aset}/approve', [AsetController::class, 'approve'])->name('aset.approve');
+    // Route::get('aset/{aset}/approve', [AsetController::class, 'approve'])->name('aset.approve');
     Route::resource('kategori', KategoriAsetController::class);
 
     // Routes untuk Aset Keluar
     Route::resource('aset-keluar', AsetKeluarController::class);
-    Route::get('aset-keluar/{asetKeluar}/approve', [AsetKeluarController::class, 'approve'])->name('aset-keluar.approve');
+    // Route::get('aset-keluar/{asetKeluar}/approve', [AsetKeluarController::class, 'approve'])->name('aset-keluar.approve');
+    Route::post('/aset-keluar/{asetKeluar}/return', [AsetKeluarController::class, 'return'])->name('aset-keluar.return');
+
 
     // Routes untuk Pengembalian
     Route::resource('pengembalian', PengembalianController::class);
-    Route::get('pengembalian/{pengembalian}/approve', [PengembalianController::class, 'approve'])->name('pengembalian.approve');
+    // Route::get('pengembalian/{pengembalian}/approve', [PengembalianController::class, 'approve'])->name('pengembalian.approve');
 
     // Routes untuk Laporan Aset
     Route::prefix('laporan')->name('laporan.')->group(function () {

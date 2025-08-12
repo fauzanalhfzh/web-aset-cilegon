@@ -37,7 +37,7 @@
             </div>
             <div class="flex space-x-2">
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Simpan</button>
-                <a href="{{ route('aset-keluar.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Batal</a>
+                <a href="{{ route('aset.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Batal</a>
             </div>
         </form>
     </div>

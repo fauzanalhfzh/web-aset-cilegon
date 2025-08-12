@@ -104,86 +104,55 @@
                         <th class="border px-2 py-1">Jmlh</th>
                         <th class="border px-2 py-1">Kondisi</th>
                         <th class="border px-2 py-1">Tgl. Beli</th>
-                        <th class="border px-2 py-1">Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="border px-2 py-1">1</td>
-                        <td class="border px-2 py-1">Komputer</td>
-                        <td class="border px-2 py-1">Elektronik</td>
-                        <td class="border px-2 py-1">5</td>
-                        <td class="border px-2 py-1">Baik</td>
-                        <td class="border px-2 py-1">01/01/2023</td>
-                        <td class="border px-2 py-1">Approved</td>
+                    @php
+                        $no = 1;
+                    @endphp
+                    @foreach ($asets as $aset)
+                     <tr>
+                        <td class="border px-2 py-1">{{ $no++ }}</td>
+                        <td class="border px-2 py-1">{{ $aset->nama_aset }}</td>
+                        <td class="border px-2 py-1">{{ $aset->kategori->nama_kategori }}</td>
+                        <td class="border px-2 py-1">{{ $aset->jumlah }}</td>
+                        <td class="border px-2 py-1">{{ $aset->kondisi }}</td>
+                        <td class="border px-2 py-1">  {{ \Carbon\Carbon::parse($aset->tanggal_pembelian)->format('d/m/Y') }}</td>
                     </tr>
-                    <tr>
-                        <td class="border px-2 py-1">2</td>
-                        <td class="border px-2 py-1">Meja Kerja</td>
-                        <td class="border px-2 py-1">Perabotan</td>
-                        <td class="border px-2 py-1">10</td>
-                        <td class="border px-2 py-1">Baik</td>
-                        <td class="border px-2 py-1">15/02/2023</td>
-                        <td class="border px-2 py-1">Approved</td>
-                    </tr>
-                    <tr>
-                        <td class="border px-2 py-1">3</td>
-                        <td class="border px-2 py-1">Printer</td>
-                        <td class="border px-2 py-1">Elektronik</td>
-                        <td class="border px-2 py-1">2</td>
-                        <td class="border px-2 py-1">Rusak Ringan</td>
-                        <td class="border px-2 py-1">20/06/2023</td>
-                        <td class="border px-2 py-1">Pending</td>
-                    </tr>
-                    <tr>
-                        <td class="border px-2 py-1">4</td>
-                        <td class="border px-2 py-1">Kursi</td>
-                        <td class="border px-2 py-1">Perabotan</td>
-                        <td class="border px-2 py-1">15</td>
-                        <td class="border px-2 py-1">Baik</td>
-                        <td class="border px-2 py-1">10/09/2023</td>
-                        <td class="border px-2 py-1">Approved</td>
-                    </tr>
-                    <tr>
-                        <td class="border px-2 py-1">5</td>
-                        <td class="border px-2 py-1">Proyektor</td>
-                        <td class="border px-2 py-1">Elektronik</td>
-                        <td class="border px-2 py-1">1</td>
-                        <td class="border px-2 py-1">Rusak Berat</td>
-                        <td class="border px-2 py-1">05/12/2023</td>
-                        <td class="border px-2 py-1">Rejected</td>
-                    </tr>
+                    @endforeach
+                   
                 </tbody>
             </table>
         </div>
 
-        <!-- Signatures -->
-        <div class="flex justify-between mt-4 text-xs">
-            <div class="text-center w-1/2">
-                <p>Penanggung Jawab</p>
-                @if ($admin && $admin->sign)
-                    <img class="signature-img mx-auto my-2" src="{{ Storage::url($admin->sign) }}" style="width: 250px;"
-                        alt="Tanda Tangan Admin">
-                    <p class="underline">({{ $admin->name }})</p>
-                @else
-                    <img class="signature-img mx-auto my-2" style="display: none;"
-                        alt="Tanda Tangan Admin">
-                    <p class="underline">(Nama Penanggung Jawab)</p>
-                @endif
-            </div>
-            <div class="text-center w-1/2">
-                <p>Kepala Lurah</p>
-                @if ($lurah && $lurah->sign)
-                    <img class="signature-img mx-auto my-2" src="{{ Storage::url($lurah->sign) }}" style="width: 250px;"
-                        alt="Tanda Tangan Lurah">
-                    <p class="underline">({{ $lurah->name }})</p>
-                @else
-                    <img class="signature-img mx-auto my-2" style="display: none;"
-                        alt="Tanda Tangan Lurah">
-                    <p class="underline">(Nama Kepala Lurah)</p>
-                @endif
-            </div>
-        </div>
+       <!-- Signatures -->
+<div class="flex justify-between mt-4 text-xs">
+    <!-- Kuasa Penanggung Jawab -->
+    <div class="text-center w-1/2">
+        <p>KUASA PENANGGUNG JAWAB</p>
+        <img class="signature-img mx-auto my-2" style="display: none;" alt="Tanda Tangan Lurah">
+        <div class="h-24"></div> <!-- Spasi untuk tanda tangan -->
+        <p class="underline">(FAISAL TANJUNG S.Kom. M)</p>
+    </div>
+
+    <!-- Pembantu Pengurus Barang Pengguna -->
+    <div class="text-center w-1/2">
+        <p class="mx-2">{{ "Cilegon, " . date('d-m-Y') }}</p>
+        <p>PEMBANTU PENGURUS</p>
+        <p>BARANG PENGGUNA</p>
+
+        @if ($admin && $admin->sign)
+            <img class="signature-img mx-auto my-2" src="{{ Storage::url($admin->sign) }}" style="width: 80px;" alt="Tanda Tangan Admin">
+            <div class="h-16"></div> <!-- Spasi bawah jika tanda tangan ada -->
+            <p class="underline">({{ $admin->name }})</p>
+        @else
+            <img class="signature-img mx-auto my-2" style="display: none;" alt="Tanda Tangan Admin">
+            <div class="h-16"></div> <!-- Spasi bawah jika tanda tangan kosong -->
+            <p class="underline">(ALI IMRON, ST)</p>
+        @endif
+    </div>
+</div>
+
     </div>
 
     <script>

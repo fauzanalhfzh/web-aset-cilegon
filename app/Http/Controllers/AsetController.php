@@ -21,24 +21,44 @@ class AsetController extends Controller
         return view('aset.create', compact('kategoris'));
     }
 
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'nama_aset' => 'required|string|max:255',
+    //         'kategori_id' => 'required|exists:kategori_asets,id',
+    //         'jumlah' => 'required|integer|min:1',
+    //         'kondisi' => 'required|in:Baik,Rusak,Perlu Perbaikan',
+    //         'tanggal_pembelian' => 'required|date',
+    //     ]);
+
+    //     Aset::create(array_merge($request->all(), ['status' => 'pending']));
+
+    //     if ($request->ajax()) {
+    //         return response()->json(['message' => 'Aset berhasil ditambahkan, menunggu persetujuan.']);
+    //     }
+
+    //     return redirect()->route('aset.index')->with('success', 'Aset berhasil ditambahkan, menunggu persetujuan.');
+    // }
+
     public function store(Request $request)
-    {
-        $request->validate([
-            'nama_aset' => 'required|string|max:255',
-            'kategori_id' => 'required|exists:kategori_asets,id',
-            'jumlah' => 'required|integer|min:1',
-            'kondisi' => 'required|in:Baik,Rusak,Perlu Perbaikan',
-            'tanggal_pembelian' => 'required|date',
-        ]);
+{
+    $request->validate([
+        'nama_aset' => 'required|string|max:255',
+        'kategori_id' => 'required|exists:kategori_asets,id',
+        'jumlah' => 'required|integer|min:1',
+        'kondisi' => 'required|in:Baik,Rusak,Perlu Perbaikan',
+        'tanggal_pembelian' => 'required|date',
+    ]);
 
-        Aset::create(array_merge($request->all(), ['status' => 'pending']));
+    Aset::create($request->all());
 
-        if ($request->ajax()) {
-            return response()->json(['message' => 'Aset berhasil ditambahkan, menunggu persetujuan.']);
-        }
-
-        return redirect()->route('aset.index')->with('success', 'Aset berhasil ditambahkan, menunggu persetujuan.');
+    if ($request->ajax()) {
+        return response()->json(['message' => 'Aset berhasil ditambahkan.']);
     }
+
+    return redirect()->route('aset.index')->with('success', 'Aset berhasil ditambahkan.');
+}
+
 
     public function edit(Aset $aset)
     {
